@@ -26,8 +26,8 @@ const prestations = [
 
 const engagements = [
   { number: '17+', label: "Années d'expérience", desc: 'Un savoir-faire éprouvé au service de votre intérieur' },
-  { number: '100%', label: 'Devis gratuit', desc: 'Étude personnalisée et sans engagement' },
-  { number: '5★', label: 'Satisfaction client', desc: 'Des finitions impeccables, projet après projet' },
+  { number: '✓', label: 'Devis gratuit', desc: 'Étude personnalisée et sans engagement' },
+  { number: '—', label: 'Avis clients', desc: 'Vos témoignages arrivent bientôt' },
 ]
 
 export default function Accueil() {
@@ -37,7 +37,7 @@ export default function Accueil() {
       <section className="bg-charcoal pt-24 pb-10 md:pt-36 md:pb-16">
         <div className="section-padding max-w-5xl">
           <p className="hero-animate hero-animate-1 label-text !text-terracotta-light mb-3 md:mb-5">
-            Artisan peintre à Angers depuis 2007
+            Artisan peintre à Angers depuis plus de 17 ans
           </p>
           <h1 className="hero-animate hero-animate-2 heading-xl text-warm-white mb-3 md:mb-5">
             Nous transformons{' '}
