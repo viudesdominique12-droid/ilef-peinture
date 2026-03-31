@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageTransition from '../components/PageTransition'
+import BeforeAfterSlider from '../components/BeforeAfterSlider'
 import AnimatedSection, { StaggerContainer, StaggerItem } from '../components/AnimatedSection'
 
 const prestations = [
@@ -33,21 +34,10 @@ export default function Accueil() {
   return (
     <PageTransition>
       {/* ============ HERO ============ */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="w-full h-full hero-img-scale">
-            <img
-              src="/images/accueil/realise-interieur.jpg"
-              alt="Intérieur rénové par ILEF"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-charcoal/50 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent" />
-        </div>
-
-        <div className="relative section-padding w-full pt-32 pb-20">
-          <div className="max-w-3xl">
+      <section className="relative bg-charcoal overflow-hidden">
+        {/* Text hero */}
+        <div className="section-padding pt-32 pb-12 md:pt-40 md:pb-16 relative z-10">
+          <div className="max-w-4xl">
             <p className="hero-animate hero-animate-1 label-text !text-terracotta-light mb-6">
               Artisan peintre à Angers depuis 2007
             </p>
@@ -79,10 +69,16 @@ export default function Accueil() {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="hero-animate hero-animate-5 absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <span className="text-warm-white/50 text-[10px] tracking-[0.3em] uppercase">Découvrir</span>
-          <div className="scroll-pulse w-px h-8 bg-gradient-to-b from-warm-white/50 to-transparent" />
+        {/* Before / After slider */}
+        <div className="hero-animate hero-animate-5 section-padding pb-0">
+          <div className="relative w-full aspect-[16/7] md:aspect-[21/9] rounded-t-sm overflow-hidden">
+            <BeforeAfterSlider
+              beforeSrc="/images/chantier/consultation.jpg"
+              afterSrc="/images/accueil/sol-moderne.jpg"
+              beforeLabel="Avant"
+              afterLabel="Après"
+            />
+          </div>
         </div>
       </section>
 
