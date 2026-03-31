@@ -1,150 +1,140 @@
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-export default function BeforeAfterSlider({
-  beforeSrc,
-  afterSrc,
-  beforeLabel = 'Avant',
-  afterLabel = 'Après',
-}) {
-  const [position, setPosition] = useState(50)
-  const [isDragging, setIsDragging] = useState(false)
-  const [hasInteracted, setHasInteracted] = useState(false)
+export default function BeforeAfterSlider({ beforeSrc, afterSrc }) {
+  const [phase, setPhase] = useState('waiting') // waiting -> revealing -> revealed -> interactive
+  const [revealProgress, setRevealProgress] = useState(0)
+  const [mouseX, setMouseX] = useState(50)
+  const [isHovering, setIsHovering] = useState(false)
   const containerRef = useRef(null)
+  const rafRef = useRef(null)
 
-  const getPosition = useCallback((clientX) => {
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = clientX - rect.left
-    return Math.max(2, Math.min(98, (x / rect.width) * 100))
-  }, [])
-
-  const handleMove = useCallback((clientX) => {
-    if (!isDragging) return
-    setPosition(getPosition(clientX))
-  }, [isDragging, getPosition])
-
-  const handleStart = useCallback((clientX) => {
-    setIsDragging(true)
-    setHasInteracted(true)
-    setPosition(getPosition(clientX))
-  }, [getPosition])
-
-  const handleEnd = useCallback(() => {
-    setIsDragging(false)
-  }, [])
-
-  // Mouse events
-  const onMouseDown = (e) => {
-    e.preventDefault()
-    handleStart(e.clientX)
-  }
-
+  // Auto-reveal animation on mount
   useEffect(() => {
-    const onMouseMove = (e) => handleMove(e.clientX)
-    const onMouseUp = () => handleEnd()
+    const startDelay = setTimeout(() => {
+      setPhase('revealing')
+      const startTime = performance.now()
+      const duration = 2400
 
-    if (isDragging) {
-      window.addEventListener('mousemove', onMouseMove)
-      window.addEventListener('mouseup', onMouseUp)
-    }
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mouseup', onMouseUp)
-    }
-  }, [isDragging, handleMove, handleEnd])
+      const animate = (now) => {
+        const elapsed = now - startTime
+        const t = Math.min(elapsed / duration, 1)
+        // Easing: cubic bezier approximation for cinematic feel
+        const eased = t < 0.5
+          ? 4 * t * t * t
+          : 1 - Math.pow(-2 * t + 2, 3) / 2
+        setRevealProgress(eased * 100)
 
-  // Touch events
-  const onTouchStart = (e) => {
-    handleStart(e.touches[0].clientX)
-  }
-  const onTouchMove = (e) => {
-    if (!isDragging) return
-    setPosition(getPosition(e.touches[0].clientX))
-  }
-  const onTouchEnd = () => handleEnd()
-
-  // Subtle intro animation
-  useEffect(() => {
-    if (hasInteracted) return
-    const timeout = setTimeout(() => {
-      let start = null
-      const duration = 1800
-      const animate = (ts) => {
-        if (!start) start = ts
-        const progress = (ts - start) / duration
-        if (progress < 1) {
-          // Gentle ease: slide from 50 -> 35 -> 65 -> 50
-          const t = progress
-          const wave = Math.sin(t * Math.PI * 2) * 15
-          setPosition(50 + wave)
-          requestAnimationFrame(animate)
+        if (t < 1) {
+          rafRef.current = requestAnimationFrame(animate)
         } else {
-          setPosition(50)
+          setPhase('revealed')
+          // After a pause, enable interactive mode
+          setTimeout(() => setPhase('interactive'), 800)
         }
       }
-      requestAnimationFrame(animate)
-    }, 1500)
-    return () => clearTimeout(timeout)
-  }, [hasInteracted])
+      rafRef.current = requestAnimationFrame(animate)
+    }, 1200)
+
+    return () => {
+      clearTimeout(startDelay)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [])
+
+  // Mouse tracking for interactive phase
+  const handleMouseMove = (e) => {
+    if (phase !== 'interactive') return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    setMouseX(Math.max(0, Math.min(100, x)))
+  }
+
+  const handleTouchMove = (e) => {
+    if (phase !== 'interactive') return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = ((e.touches[0].clientX - rect.left) / rect.width) * 100
+    setMouseX(Math.max(0, Math.min(100, x)))
+  }
+
+  // Calculate the clip position
+  const clipPos = phase === 'interactive' && isHovering ? mouseX : phase === 'waiting' ? 0 : revealProgress
 
   return (
     <div
       ref={containerRef}
-      className="ba-slider"
-      onMouseDown={onMouseDown}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      role="slider"
-      aria-valuenow={Math.round(position)}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-label="Comparaison avant après"
+      className="ba-hero"
+      onMouseMove={handleMouseMove}
+      onTouchMove={handleTouchMove}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
     >
-      {/* After image (background, full) */}
-      <div className="ba-layer ba-after">
+      {/* AFTER image — the beautiful result (base layer) */}
+      <div className="ba-hero-layer">
         <img src={afterSrc} alt="Après rénovation" draggable={false} />
       </div>
 
-      {/* Before image (clipped) */}
+      {/* BEFORE image — the old room (top layer, gets clipped away) */}
       <div
-        className="ba-layer ba-before"
-        style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
+        className="ba-hero-layer ba-hero-before"
+        style={{ clipPath: `inset(0 ${clipPos}% 0 0)` }}
       >
         <img src={beforeSrc} alt="Avant rénovation" draggable={false} />
+        {/* Dark tint on before */}
+        <div className="absolute inset-0 bg-charcoal/20" />
       </div>
 
-      {/* Divider line */}
-      <div className="ba-divider" style={{ left: `${position}%` }}>
-        <div className="ba-line" />
-
-        {/* Handle */}
-        <div className={`ba-handle ${isDragging ? 'ba-handle-active' : ''}`}>
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <circle cx="14" cy="14" r="13" stroke="white" strokeWidth="2" fill="rgba(0,0,0,0.3)" />
-            <path d="M10 10L6 14L10 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M18 10L22 14L18 18" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+      {/* 3D Paint roller element that follows the reveal edge */}
+      {(phase === 'revealing' || (phase === 'interactive' && isHovering)) && (
+        <div
+          className="ba-roller"
+          style={{ left: `${clipPos}%` }}
+        >
+          <div className="ba-roller-shaft">
+            <div className="ba-roller-cylinder">
+              <div className="ba-roller-texture" />
+            </div>
+            <div className="ba-roller-handle" />
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Edge glow line */}
+      <div
+        className="ba-edge-glow"
+        style={{
+          left: `${clipPos}%`,
+          opacity: phase === 'waiting' ? 0 : phase === 'revealed' && !isHovering ? 0 : 1,
+        }}
+      />
 
       {/* Labels */}
-      <div
-        className={`ba-label ba-label-before ${position < 15 ? 'ba-label-hidden' : ''}`}
-        style={{ right: `${100 - position + 3}%` }}
-      >
-        {beforeLabel}
-      </div>
-      <div
-        className={`ba-label ba-label-after ${position > 85 ? 'ba-label-hidden' : ''}`}
-        style={{ left: `${position + 3}%` }}
-      >
-        {afterLabel}
-      </div>
+      {(phase === 'revealing' || phase === 'interactive') && (
+        <>
+          <div
+            className="ba-hero-label ba-hero-label-left"
+            style={{
+              opacity: clipPos > 15 && clipPos < 95 ? 1 : 0,
+              right: `${100 - clipPos + 4}%`,
+            }}
+          >
+            Avant
+          </div>
+          <div
+            className="ba-hero-label ba-hero-label-right"
+            style={{
+              opacity: clipPos > 5 && clipPos < 85 ? 1 : 0,
+              left: `${clipPos + 4}%`,
+            }}
+          >
+            Après
+          </div>
+        </>
+      )}
 
-      {/* Hint overlay — only before interaction */}
-      {!hasInteracted && (
-        <div className="ba-hint">
-          <span>Glissez pour comparer</span>
+      {/* Interactive hint after reveal */}
+      {phase === 'interactive' && !isHovering && (
+        <div className="ba-hero-hint">
+          <span>Survolez pour comparer</span>
         </div>
       )}
     </div>

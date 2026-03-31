@@ -33,11 +33,21 @@ const engagements = [
 export default function Accueil() {
   return (
     <PageTransition>
-      {/* ============ HERO ============ */}
-      <section className="relative bg-charcoal overflow-hidden">
-        {/* Text hero */}
-        <div className="section-padding pt-32 pb-12 md:pt-40 md:pb-16 relative z-10">
-          <div className="max-w-4xl">
+      {/* ============ HERO — FULLSCREEN AVANT/APRÈS ============ */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Before/After as full background */}
+        <BeforeAfterSlider
+          beforeSrc="/images/chantier/consultation.jpg"
+          afterSrc="/images/accueil/sol-moderne.jpg"
+        />
+
+        {/* Dark gradient for text readability */}
+        <div className="absolute inset-0 z-[3] bg-gradient-to-r from-charcoal/75 via-charcoal/40 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 z-[3] bg-gradient-to-t from-charcoal/50 via-transparent to-charcoal/30 pointer-events-none" />
+
+        {/* Text content */}
+        <div className="relative z-[4] section-padding w-full pt-32 pb-20 pointer-events-none">
+          <div className="max-w-3xl">
             <p className="hero-animate hero-animate-1 label-text !text-terracotta-light mb-6">
               Artisan peintre à Angers depuis 2007
             </p>
@@ -55,7 +65,7 @@ export default function Accueil() {
               soignées pour un intérieur qui vous ressemble.
             </p>
 
-            <div className="hero-animate hero-animate-4 flex flex-col sm:flex-row gap-4">
+            <div className="hero-animate hero-animate-4 flex flex-col sm:flex-row gap-4 pointer-events-auto">
               <Link to="/contact" className="btn-light">
                 Demander un devis gratuit
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -69,16 +79,10 @@ export default function Accueil() {
           </div>
         </div>
 
-        {/* Before / After slider */}
-        <div className="hero-animate hero-animate-5 section-padding pb-0">
-          <div className="relative w-full aspect-[16/7] md:aspect-[21/9] rounded-t-sm overflow-hidden">
-            <BeforeAfterSlider
-              beforeSrc="/images/chantier/consultation.jpg"
-              afterSrc="/images/accueil/sol-moderne.jpg"
-              beforeLabel="Avant"
-              afterLabel="Après"
-            />
-          </div>
+        {/* Scroll indicator */}
+        <div className="hero-animate hero-animate-5 absolute bottom-8 left-1/2 -translate-x-1/2 z-[4] flex flex-col items-center gap-2 pointer-events-none">
+          <span className="text-warm-white/50 text-[10px] tracking-[0.3em] uppercase">Découvrir</span>
+          <div className="scroll-pulse w-px h-8 bg-gradient-to-b from-warm-white/50 to-transparent" />
         </div>
       </section>
 
