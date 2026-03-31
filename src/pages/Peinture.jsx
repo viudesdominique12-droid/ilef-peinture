@@ -67,7 +67,7 @@ export default function Peinture() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-terracotta/10 rounded-sm -z-10" />
+                <div className="absolute -bottom-4 right-0 md:-right-4 w-32 h-32 bg-terracotta/10 rounded-sm -z-10" />
               </div>
             </AnimatedSection>
           </div>

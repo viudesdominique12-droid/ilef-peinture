@@ -111,7 +111,7 @@ export default function Accueil() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="absolute -bottom-6 -left-6 bg-anthracite text-warm-white p-6 rounded-sm shadow-xl max-w-[200px]">
+                <div className="absolute -bottom-6 left-0 md:-left-6 bg-anthracite text-warm-white p-6 rounded-sm shadow-xl max-w-[200px]">
                   <p className="font-serif text-3xl text-terracotta-light mb-1">17+</p>
                   <p className="text-xs tracking-widest uppercase text-warm-white/70">Années d'expérience</p>
                 </div>

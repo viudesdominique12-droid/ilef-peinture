@@ -81,7 +81,7 @@ export default function Sol() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-terracotta/10 rounded-sm -z-10" />
+                <div className="absolute -bottom-4 left-0 md:-left-4 w-24 h-24 bg-terracotta/10 rounded-sm -z-10" />
               </div>
             </AnimatedSection>
           </div>
