@@ -33,57 +33,41 @@ const engagements = [
 export default function Accueil() {
   return (
     <PageTransition>
-      {/* ============ HERO — FULLSCREEN AVANT/APRÈS ============ */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Before/After as full background */}
+      {/* ============ HERO TEXT ============ */}
+      <section className="bg-charcoal pt-28 pb-14 md:pt-36 md:pb-16">
+        <div className="section-padding max-w-5xl">
+          <p className="hero-animate hero-animate-1 label-text !text-terracotta-light mb-5">
+            Artisan peintre à Angers depuis 2007
+          </p>
+          <h1 className="hero-animate hero-animate-2 heading-xl text-warm-white mb-5">
+            Nous transformons{' '}
+            <span className="text-terracotta-light italic">vos espaces</span>
+            {' '}avec exigence
+          </h1>
+          <p className="hero-animate hero-animate-3 text-lg md:text-xl text-warm-white/60 leading-relaxed max-w-2xl mb-8">
+            Peinture décorative, revêtements muraux et de sol — des finitions
+            soignées pour un intérieur qui vous ressemble.
+          </p>
+          <div className="hero-animate hero-animate-4 flex flex-col sm:flex-row gap-4">
+            <Link to="/contact" className="btn-light">
+              Demander un devis gratuit
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+              </svg>
+            </Link>
+            <Link to="/nos-realisations" className="btn-outline !border-warm-white/30 !text-warm-white hover:!bg-warm-white/10">
+              Voir nos réalisations
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ SLIDER AVANT / APRÈS — PLEINE LARGEUR ============ */}
+      <section className="relative w-full h-[50vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
         <BeforeAfterSlider
           beforeSrc="/images/chantier/consultation.jpg"
           afterSrc="/images/accueil/sol-moderne.jpg"
         />
-
-        {/* Dark gradient for text readability */}
-        <div className="absolute inset-0 z-[3] bg-gradient-to-r from-charcoal/75 via-charcoal/40 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 z-[3] bg-gradient-to-t from-charcoal/50 via-transparent to-charcoal/30 pointer-events-none" />
-
-        {/* Text content */}
-        <div className="relative z-[4] section-padding w-full pt-32 pb-20 pointer-events-none">
-          <div className="max-w-3xl">
-            <p className="hero-animate hero-animate-1 label-text !text-terracotta-light mb-6">
-              Artisan peintre à Angers depuis 2007
-            </p>
-
-            <h1 className="hero-animate hero-animate-2 heading-xl text-warm-white mb-6">
-              Nous transformons
-              <br />
-              <span className="text-terracotta-light italic">vos espaces</span>
-              <br />
-              avec exigence
-            </h1>
-
-            <p className="hero-animate hero-animate-3 text-lg md:text-xl text-warm-white/70 leading-relaxed max-w-xl mb-10">
-              Peinture décorative, revêtements muraux et de sol — des finitions
-              soignées pour un intérieur qui vous ressemble.
-            </p>
-
-            <div className="hero-animate hero-animate-4 flex flex-col sm:flex-row gap-4 pointer-events-auto">
-              <Link to="/contact" className="btn-light">
-                Demander un devis gratuit
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                </svg>
-              </Link>
-              <Link to="/nos-realisations" className="btn-outline !border-warm-white/40 !text-warm-white hover:!bg-warm-white/10">
-                Voir nos réalisations
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="hero-animate hero-animate-5 absolute bottom-8 left-1/2 -translate-x-1/2 z-[4] flex flex-col items-center gap-2 pointer-events-none">
-          <span className="text-warm-white/50 text-[10px] tracking-[0.3em] uppercase">Découvrir</span>
-          <div className="scroll-pulse w-px h-8 bg-gradient-to-b from-warm-white/50 to-transparent" />
-        </div>
       </section>
 
       {/* ============ INTRO / CONFIANCE ============ */}
