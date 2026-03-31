@@ -34,36 +34,36 @@ export default function Accueil() {
   return (
     <PageTransition>
       {/* ============ HERO TEXT ============ */}
-      <section className="bg-charcoal pt-28 pb-14 md:pt-36 md:pb-16">
+      <section className="bg-charcoal pt-24 pb-10 md:pt-36 md:pb-16">
         <div className="section-padding max-w-5xl">
-          <p className="hero-animate hero-animate-1 label-text !text-terracotta-light mb-5">
+          <p className="hero-animate hero-animate-1 label-text !text-terracotta-light mb-3 md:mb-5">
             Artisan peintre à Angers depuis 2007
           </p>
-          <h1 className="hero-animate hero-animate-2 heading-xl text-warm-white mb-5">
+          <h1 className="hero-animate hero-animate-2 heading-xl text-warm-white mb-3 md:mb-5">
             Nous transformons{' '}
             <span className="text-terracotta-light italic">vos espaces</span>
             {' '}avec exigence
           </h1>
-          <p className="hero-animate hero-animate-3 text-lg md:text-xl text-warm-white/60 leading-relaxed max-w-2xl mb-8">
+          <p className="hero-animate hero-animate-3 text-sm md:text-xl text-warm-white/60 leading-relaxed max-w-2xl mb-6 md:mb-8">
             Peinture décorative, revêtements muraux et de sol — des finitions
             soignées pour un intérieur qui vous ressemble.
           </p>
-          <div className="hero-animate hero-animate-4 flex flex-col sm:flex-row gap-4">
-            <Link to="/contact" className="btn-light">
-              Demander un devis gratuit
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="hero-animate hero-animate-4 flex flex-row gap-3 md:gap-4">
+            <Link to="/contact" className="btn-light flex-1 sm:flex-none">
+              Devis gratuit
+              <svg className="w-4 h-4 hidden sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
               </svg>
             </Link>
-            <Link to="/nos-realisations" className="btn-outline !border-warm-white/30 !text-warm-white hover:!bg-warm-white/10">
-              Voir nos réalisations
+            <Link to="/nos-realisations" className="btn-outline !border-warm-white/30 !text-warm-white hover:!bg-warm-white/10 flex-1 sm:flex-none">
+              Réalisations
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ============ SLIDER AVANT / APRÈS — PLEINE LARGEUR ============ */}
-      <section className="relative w-full h-[50vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
+      {/* ============ SLIDER AVANT / APRÈS ============ */}
+      <section className="relative w-full h-[55vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
         <BeforeAfterSlider
           beforeSrc="/images/chantier/consultation.jpg"
           afterSrc="/images/accueil/sol-moderne.jpg"

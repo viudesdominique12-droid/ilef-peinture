@@ -1,39 +1,49 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  return isMobile
+}
 
 export default function BeforeAfterSlider({ beforeSrc, afterSrc }) {
-  const [phase, setPhase] = useState('waiting') // waiting -> revealing -> revealed -> interactive
+  const isMobile = useIsMobile()
+  const [phase, setPhase] = useState('waiting')
   const [revealProgress, setRevealProgress] = useState(0)
-  const [mouseX, setMouseX] = useState(50)
+  const [interactivePos, setInteractivePos] = useState(50)
+  const [isDragging, setIsDragging] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
   const containerRef = useRef(null)
   const rafRef = useRef(null)
+  const loopRef = useRef(null)
 
-  // Auto-reveal animation on mount
+  // Initial reveal animation
   useEffect(() => {
     const startDelay = setTimeout(() => {
       setPhase('revealing')
       const startTime = performance.now()
-      const duration = 2400
+      const duration = 2200
 
       const animate = (now) => {
         const elapsed = now - startTime
         const t = Math.min(elapsed / duration, 1)
-        // Easing: cubic bezier approximation for cinematic feel
-        const eased = t < 0.5
-          ? 4 * t * t * t
-          : 1 - Math.pow(-2 * t + 2, 3) / 2
+        const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
         setRevealProgress(eased * 100)
 
         if (t < 1) {
           rafRef.current = requestAnimationFrame(animate)
         } else {
           setPhase('revealed')
-          // After a pause, enable interactive mode
-          setTimeout(() => setPhase('interactive'), 800)
+          setTimeout(() => setPhase('interactive'), 600)
         }
       }
       rafRef.current = requestAnimationFrame(animate)
-    }, 1200)
+    }, 1000)
 
     return () => {
       clearTimeout(startDelay)
@@ -41,54 +51,100 @@ export default function BeforeAfterSlider({ beforeSrc, afterSrc }) {
     }
   }, [])
 
-  // Mouse tracking for interactive phase
-  const handleMouseMove = (e) => {
-    if (phase !== 'interactive') return
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    setMouseX(Math.max(0, Math.min(100, x)))
-  }
+  // Mobile: auto-loop breathing animation when not dragging
+  useEffect(() => {
+    if (!isMobile || phase !== 'interactive' || isDragging) {
+      if (loopRef.current) cancelAnimationFrame(loopRef.current)
+      return
+    }
 
-  const handleTouchMove = (e) => {
+    const startTime = performance.now()
+    const loop = (now) => {
+      const elapsed = (now - startTime) / 1000
+      // Smooth sine wave: oscillates between 25% and 75% over 4 seconds
+      const pos = 50 + Math.sin(elapsed * Math.PI / 2) * 25
+      setInteractivePos(pos)
+      loopRef.current = requestAnimationFrame(loop)
+    }
+    loopRef.current = requestAnimationFrame(loop)
+
+    return () => { if (loopRef.current) cancelAnimationFrame(loopRef.current) }
+  }, [isMobile, phase, isDragging])
+
+  // Touch drag for mobile
+  const handleTouchStart = useCallback((e) => {
     if (phase !== 'interactive') return
+    setIsDragging(true)
     const rect = containerRef.current.getBoundingClientRect()
     const x = ((e.touches[0].clientX - rect.left) / rect.width) * 100
-    setMouseX(Math.max(0, Math.min(100, x)))
+    setInteractivePos(Math.max(2, Math.min(98, x)))
+  }, [phase])
+
+  const handleTouchMove = useCallback((e) => {
+    if (!isDragging) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = ((e.touches[0].clientX - rect.left) / rect.width) * 100
+    setInteractivePos(Math.max(2, Math.min(98, x)))
+  }, [isDragging])
+
+  const handleTouchEnd = useCallback(() => {
+    setIsDragging(false)
+  }, [])
+
+  // Desktop: mouse hover
+  const handleMouseMove = useCallback((e) => {
+    if (phase !== 'interactive' || isMobile) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    setInteractivePos(Math.max(0, Math.min(100, x)))
+  }, [phase, isMobile])
+
+  // Determine clip position based on phase
+  let clipPos
+  if (phase === 'waiting') {
+    clipPos = 0
+  } else if (phase === 'revealing') {
+    clipPos = revealProgress
+  } else if (phase === 'interactive') {
+    if (isMobile || isHovering || isDragging) {
+      clipPos = interactivePos
+    } else {
+      clipPos = 100 // Desktop, not hovering: show full "after"
+    }
+  } else {
+    clipPos = revealProgress
   }
 
-  // Calculate the clip position
-  const clipPos = phase === 'interactive' && isHovering ? mouseX : phase === 'waiting' ? 0 : revealProgress
+  const showRoller = phase === 'revealing' || (phase === 'interactive' && (isMobile || isHovering || isDragging))
 
   return (
     <div
       ref={containerRef}
       className="ba-hero"
       onMouseMove={handleMouseMove}
-      onTouchMove={handleTouchMove}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
-      {/* AFTER image — the beautiful result (base layer) */}
+      {/* AFTER image */}
       <div className="ba-hero-layer">
         <img src={afterSrc} alt="Après rénovation" draggable={false} />
       </div>
 
-      {/* BEFORE image — the old room (top layer, gets clipped away) */}
+      {/* BEFORE image — clipped */}
       <div
         className="ba-hero-layer ba-hero-before"
         style={{ clipPath: `inset(0 ${clipPos}% 0 0)` }}
       >
         <img src={beforeSrc} alt="Avant rénovation" draggable={false} />
-        {/* Dark tint on before */}
-        <div className="absolute inset-0 bg-charcoal/20" />
+        <div className="absolute inset-0 bg-charcoal/15" />
       </div>
 
-      {/* 3D Paint roller element that follows the reveal edge */}
-      {(phase === 'revealing' || (phase === 'interactive' && isHovering)) && (
-        <div
-          className="ba-roller"
-          style={{ left: `${clipPos}%` }}
-        >
+      {/* Paint roller */}
+      {showRoller && (
+        <div className="ba-roller" style={{ left: `${clipPos}%` }}>
           <div className="ba-roller-shaft">
             <div className="ba-roller-cylinder">
               <div className="ba-roller-texture" />
@@ -98,32 +154,32 @@ export default function BeforeAfterSlider({ beforeSrc, afterSrc }) {
         </div>
       )}
 
-      {/* Edge glow line */}
+      {/* Edge glow */}
       <div
         className="ba-edge-glow"
         style={{
           left: `${clipPos}%`,
-          opacity: phase === 'waiting' ? 0 : phase === 'revealed' && !isHovering ? 0 : 1,
+          opacity: showRoller ? 1 : 0,
         }}
       />
 
       {/* Labels */}
-      {(phase === 'revealing' || phase === 'interactive') && (
+      {phase !== 'waiting' && (
         <>
           <div
-            className="ba-hero-label ba-hero-label-left"
+            className="ba-hero-label"
             style={{
-              opacity: clipPos > 15 && clipPos < 95 ? 1 : 0,
-              right: `${100 - clipPos + 4}%`,
+              opacity: clipPos > 12 && clipPos < 95 ? 1 : 0,
+              right: `${100 - clipPos + 3}%`,
             }}
           >
             Avant
           </div>
           <div
-            className="ba-hero-label ba-hero-label-right"
+            className="ba-hero-label"
             style={{
-              opacity: clipPos > 5 && clipPos < 85 ? 1 : 0,
-              left: `${clipPos + 4}%`,
+              opacity: clipPos > 5 && clipPos < 88 ? 1 : 0,
+              left: `${clipPos + 3}%`,
             }}
           >
             Après
@@ -131,8 +187,15 @@ export default function BeforeAfterSlider({ beforeSrc, afterSrc }) {
         </>
       )}
 
-      {/* Interactive hint after reveal */}
-      {phase === 'interactive' && !isHovering && (
+      {/* Mobile touch hint */}
+      {isMobile && phase === 'interactive' && !isDragging && (
+        <div className="ba-hero-hint">
+          <span>Glissez avec le doigt</span>
+        </div>
+      )}
+
+      {/* Desktop hover hint */}
+      {!isMobile && phase === 'interactive' && !isHovering && (
         <div className="ba-hero-hint">
           <span>Survolez pour comparer</span>
         </div>

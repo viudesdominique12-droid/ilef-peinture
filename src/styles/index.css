@@ -45,43 +45,43 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-8 py-4 bg-anthracite text-warm-white font-sans text-sm tracking-widest uppercase transition-all duration-500 hover:bg-terracotta cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-anthracite text-warm-white font-sans text-xs md:text-sm tracking-widest uppercase transition-all duration-500 hover:bg-terracotta cursor-pointer;
   }
 
   .btn-outline {
-    @apply inline-flex items-center gap-2 px-8 py-4 border border-anthracite text-anthracite font-sans text-sm tracking-widest uppercase transition-all duration-500 hover:bg-anthracite hover:text-warm-white cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 border border-anthracite text-anthracite font-sans text-xs md:text-sm tracking-widest uppercase transition-all duration-500 hover:bg-anthracite hover:text-warm-white cursor-pointer;
   }
 
   .btn-light {
-    @apply inline-flex items-center gap-2 px-8 py-4 bg-warm-white text-anthracite font-sans text-sm tracking-widest uppercase transition-all duration-500 hover:bg-terracotta hover:text-warm-white cursor-pointer;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-warm-white text-anthracite font-sans text-xs md:text-sm tracking-widest uppercase transition-all duration-500 hover:bg-terracotta hover:text-warm-white cursor-pointer;
   }
 
   .section-padding {
-    @apply px-6 md:px-12 lg:px-20 xl:px-32;
+    @apply px-5 md:px-12 lg:px-20 xl:px-32;
   }
 
   .section-spacing {
-    @apply py-20 md:py-28 lg:py-36;
+    @apply py-14 md:py-28 lg:py-36;
   }
 
   .heading-xl {
-    @apply font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight;
+    @apply font-serif text-3xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight;
   }
 
   .heading-lg {
-    @apply font-serif text-3xl md:text-4xl lg:text-5xl leading-tight;
+    @apply font-serif text-2xl md:text-4xl lg:text-5xl leading-tight;
   }
 
   .heading-md {
-    @apply font-serif text-2xl md:text-3xl leading-tight;
+    @apply font-serif text-xl md:text-3xl leading-tight;
   }
 
   .body-lg {
-    @apply text-base md:text-lg leading-relaxed text-taupe;
+    @apply text-sm md:text-lg leading-relaxed text-taupe;
   }
 
   .label-text {
-    @apply text-xs tracking-[0.2em] uppercase text-terracotta font-medium;
+    @apply text-[10px] md:text-xs tracking-[0.2em] uppercase text-terracotta font-medium;
   }
 
   .divider-line {
