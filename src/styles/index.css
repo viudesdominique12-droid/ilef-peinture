@@ -281,6 +281,199 @@
 }
 
 /* =============================================
+   3D TILT CARD
+   ============================================= */
+
+.tilt-card {
+  position: relative;
+  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+  cursor: pointer;
+}
+
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 60%
+  );
+  opacity: var(--glare-opacity, 0);
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+/* =============================================
+   3D FLIP CARD
+   ============================================= */
+
+.flip-card-container {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card-flipped .flip-card-inner,
+.flip-card-inner.flip-card-flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* =============================================
+   3D COVERFLOW
+   ============================================= */
+
+.coverflow-wrapper {
+  position: relative;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.coverflow-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coverflow-item {
+  position: absolute;
+  width: 280px;
+  height: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.coverflow-item-active {
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
+}
+
+.coverflow-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.coverflow-arrow {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-anthracite);
+  color: var(--color-warm-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.coverflow-arrow:hover {
+  background: var(--color-terracotta);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.coverflow-arrow-left { left: 16px; }
+.coverflow-arrow-right { right: 16px; }
+
+/* Mobile coverflow = scroll snap */
+.coverflow-mobile-wrapper {
+  position: relative;
+}
+
+.coverflow-mobile {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 8px 20px;
+}
+
+.coverflow-mobile::-webkit-scrollbar {
+  display: none;
+}
+
+.coverflow-mobile-item {
+  flex-shrink: 0;
+  width: 75vw;
+  max-width: 300px;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  scroll-snap-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.coverflow-mobile-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.coverflow-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.coverflow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-beige);
+  transition: all 0.3s ease;
+}
+
+.coverflow-dot-active {
+  background: var(--color-terracotta);
+  width: 18px;
+  border-radius: 3px;
+}
+
+/* =============================================
    BEFORE / AFTER — FULLSCREEN HERO
    ============================================= */
 
