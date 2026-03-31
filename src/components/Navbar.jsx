@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const navLinks = [
+  { path: '/', label: 'Accueil' },
+  { path: '/peinture-interieur-et-revetement', label: 'Art' },
   { path: '/deroulement-du-chantier', label: 'Chantier' },
-  { path: '/peinture-interieur-et-revetement', label: 'Peinture & Revêtement' },
-  { path: '/revetement-de-sol', label: 'Revêtement de sol' },
-  { path: '/nos-realisations', label: 'Réalisations' },
+  { path: '/nos-realisations', label: 'Projets' },
   { path: '/contact', label: 'Contact' },
 ]
 
 const mobileNavLinks = [
-  { path: '/', label: 'Accueil' },
   ...navLinks,
+  { path: '/revetement-de-sol', label: 'Revêtement de sol' },
 ]
 
 export default function Navbar() {
@@ -37,6 +37,7 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Top bar — logo + phone (desktop) / logo + burger (mobile) */}
       <header
         className={`nav-enter fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
@@ -44,8 +45,8 @@ export default function Navbar() {
             : 'bg-transparent'
         }`}
       >
-        <nav className="section-padding flex items-center justify-between h-20 lg:h-24">
-          <Link to="/" className="relative z-50 flex items-center gap-3">
+        <div className="section-padding flex items-center justify-between h-20 lg:h-24">
+          <Link to="/" className="relative z-50">
             <img
               src="/images/logo/logo.jpg"
               alt="ILEF Déco"
@@ -53,30 +54,10 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`relative text-[13px] tracking-wide uppercase font-medium transition-colors duration-300 group ${
-                  location.pathname === link.path
-                    ? 'text-terracotta'
-                    : 'text-anthracite hover:text-terracotta'
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-1 left-0 h-px bg-terracotta transition-all duration-300 ${
-                    location.pathname === link.path ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}
-                />
-              </Link>
-            ))}
-            <a href="tel:0659797855" className="btn-primary text-xs py-3 px-6 whitespace-nowrap">
-              06 59 79 78 55
-            </a>
-          </div>
+          {/* Desktop phone */}
+          <a href="tel:0659797855" className="hidden lg:flex btn-primary text-xs py-3 px-6 whitespace-nowrap">
+            06 59 79 78 55
+          </a>
 
           {/* Mobile burger */}
           <button
@@ -84,19 +65,33 @@ export default function Navbar() {
             className="relative z-50 lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
             aria-label="Menu"
           >
-            <span
-              className={`block w-6 h-px transition-all duration-300 ${
-                isOpen ? 'rotate-45 translate-y-[3.5px] bg-warm-white' : 'bg-anthracite'
-              }`}
-            />
-            <span
-              className={`block w-6 h-px transition-all duration-300 ${
-                isOpen ? '-rotate-45 -translate-y-[3.5px] bg-warm-white' : 'bg-anthracite'
-              }`}
-            />
+            <span className={`block w-6 h-px transition-all duration-300 ${isOpen ? 'rotate-45 translate-y-[3.5px] bg-warm-white' : 'bg-anthracite'}`} />
+            <span className={`block w-6 h-px transition-all duration-300 ${isOpen ? '-rotate-45 -translate-y-[3.5px] bg-warm-white' : 'bg-anthracite'}`} />
           </button>
-        </nav>
+        </div>
       </header>
+
+      {/* Bottom floating nav — desktop only */}
+      <nav className="hidden lg:block fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <div className="flex items-center bg-anthracite/95 backdrop-blur-xl rounded-full px-2 py-2 shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
+          {navLinks.map((link) => {
+            const isActive = location.pathname === link.path
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`relative px-6 py-2.5 text-[13px] tracking-wide uppercase font-medium rounded-full transition-all duration-300 whitespace-nowrap ${
+                  isActive
+                    ? 'bg-ivory text-anthracite'
+                    : 'text-warm-white/70 hover:text-warm-white'
+                }`}
+              >
+                {link.label}
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
 
       {/* Mobile menu overlay */}
       {isOpen && (
