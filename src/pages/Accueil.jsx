@@ -22,23 +22,21 @@ export default function Accueil() {
 
   return (
     <PageTransition>
-      {/* ============ HERO with spotlight ============ */}
-      <section ref={spotRef} className="relative min-h-[85vh] md:min-h-screen flex items-end pb-12 md:pb-20 overflow-hidden">
+      {/* ============ HERO compact + AVANT/APRÈS collé ============ */}
+      <section ref={spotRef} className="relative overflow-hidden">
         {/* Spotlight overlay */}
         <div className="spotlight absolute inset-0 z-[1]" />
 
-        <div className="relative z-[2] section-padding w-full">
-          <p className="hero-animate hero-animate-1 label-text mb-3">
+        <div className="relative z-[2] section-padding pt-20 pb-6 md:pt-24 md:pb-8">
+          <p className="hero-animate hero-animate-1 label-text mb-2">
             Artisan peintre à Angers depuis plus de 17 ans
           </p>
-          <h1 className="hero-animate hero-animate-2 heading-xl max-w-4xl mb-4">
+          <h1 className="hero-animate hero-animate-2 heading-xl max-w-4xl mb-3">
             Nous transformons{' '}
             <span className="text-bronze italic">vos espaces</span>
-            {' '}avec exigence
           </h1>
-          <p className="hero-animate hero-animate-3 body-lg max-w-xl mb-8">
-            Peinture intérieure, revêtements muraux et de sol — des finitions
-            soignées pour un intérieur qui vous ressemble.
+          <p className="hero-animate hero-animate-3 body-lg max-w-lg mb-5">
+            Peinture intérieure, revêtements muraux et de sol — des finitions soignées pour un intérieur qui vous ressemble.
           </p>
           <div className="hero-animate hero-animate-4 flex flex-row gap-3">
             <Link to="/contact" className="btn-primary">
@@ -48,13 +46,10 @@ export default function Accueil() {
             <Link to="/nos-realisations" className="btn-outline">Nos projets</Link>
           </div>
         </div>
-
-        {/* Bottom glow line */}
-        <div className="absolute bottom-0 left-0 right-0 glow-line" />
       </section>
 
-      {/* ============ AVANT / APRÈS ============ */}
-      <section className="relative w-full h-[50vh] md:h-[65vh] lg:h-[70vh] overflow-hidden">
+      {/* ============ AVANT / APRÈS — directement visible ============ */}
+      <section className="relative w-full h-[45vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
         <BeforeAfterSlider
           beforeSrc="/images/chantier/consultation.jpg"
           afterSrc="/images/accueil/sol-moderne.jpg"
