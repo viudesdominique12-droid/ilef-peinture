@@ -20,7 +20,7 @@ export default function Services() {
         <div className="relative section-padding max-w-4xl">
           <p className="hero-animate hero-animate-1 label-text mb-3">Nos services</p>
           <h1 className="hero-animate hero-animate-2 heading-xl mb-4">
-            Des prestations complètes pour votre <span className="italic text-bronze">intérieur</span>
+            Des prestations complètes pour votre <span className="italic text-rose">intérieur</span>
           </h1>
           <p className="hero-animate hero-animate-3 body-lg max-w-xl">
             Peinture, revêtements muraux et de sol — nous prenons en charge l'ensemble de vos travaux avec soin.
@@ -30,11 +30,11 @@ export default function Services() {
       </section>
 
       {/* Nav rapide */}
-      <nav className="section-padding py-4 bg-dark sticky top-20 lg:top-24 z-30 border-b border-gray-900">
+      <nav className="section-padding py-4 bg-white sticky top-20 lg:top-24 z-30 border-b border-gray-200">
         <div className="flex gap-2 justify-center">
           {[{ a: '#peinture', l: 'Peinture' }, { a: '#revetement-mural', l: 'Murs' }, { a: '#sol', l: 'Sol' }].map(n => (
             <a key={n.a} href={n.a} onClick={(e) => { e.preventDefault(); document.querySelector(n.a)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
-              className="px-4 py-2 text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-gray-500 hover:text-bronze rounded-full hover:bg-dark-light transition-all">
+              className="px-4 py-2 text-[10px] md:text-[11px] tracking-[0.2em] uppercase text-gray-500 hover:text-rose rounded-full hover:bg-light transition-all">
               {n.l}
             </a>
           ))}
@@ -55,7 +55,7 @@ export default function Services() {
             </p>
             <div className="flex flex-wrap gap-2">
               {['Murs', 'Plafonds', 'Décorative', 'Motifs', 'Fissures', 'Glycéro', 'Satinée', 'Mate'].map(t => (
-                <span key={t} className="px-3 py-1.5 bg-dark-light border border-gray-900 rounded-full text-[10px] tracking-wider text-gray-400">{t}</span>
+                <span key={t} className="px-3 py-1.5 bg-light border border-gray-200 rounded-full text-[10px] tracking-wider text-gray-600">{t}</span>
               ))}
             </div>
           </AnimatedSection>
@@ -86,7 +86,7 @@ export default function Services() {
             </p>
             <div className="flex flex-wrap gap-2">
               {['Papier peint', 'Toile de verre', 'Vinyle', 'Décoration murale'].map(t => (
-                <span key={t} className="px-3 py-1.5 bg-dark-light border border-gray-900 rounded-full text-[10px] tracking-wider text-gray-400">{t}</span>
+                <span key={t} className="px-3 py-1.5 bg-light border border-gray-200 rounded-full text-[10px] tracking-wider text-gray-600">{t}</span>
               ))}
             </div>
           </AnimatedSection>
@@ -130,7 +130,7 @@ export default function Services() {
             ].map((s, i) => (
               <StaggerItem key={i}>
                 <RevealImage src={s.image} alt={s.title} aspect="aspect-[4/3]" className="mb-3" />
-                <h3 className="font-serif text-base text-white mb-1">{s.title}</h3>
+                <h3 className="font-serif text-base text-gray-800 mb-1">{s.title}</h3>
                 <p className="text-[11px] text-gray-500 leading-relaxed">{s.desc}</p>
               </StaggerItem>
             ))}
@@ -139,7 +139,7 @@ export default function Services() {
       </section>
 
       {/* CTA */}
-      <section className="section-padding py-14 md:py-20 bg-dark-light text-center border-t border-gray-900">
+      <section className="section-padding py-14 md:py-20 bg-light text-center border-t border-gray-200">
         <AnimatedSection>
           <h2 className="heading-md mb-3">Un projet en tête ?</h2>
           <p className="body-lg max-w-md mx-auto mb-6">Devis gratuit sous 48h. Intervention rapide.</p>
