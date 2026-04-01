@@ -58,16 +58,16 @@ export default function Realisations() {
       </section>
 
       {/* Category selector */}
-      <section className="section-padding py-8 bg-black sticky top-20 lg:top-24 z-30 border-b border-gray-900">
-        <div className="max-w-7xl mx-auto flex flex-wrap gap-3 justify-center">
+      <section className="py-5 bg-dark sticky top-16 md:top-20 z-30 border-b border-gray-900">
+        <div className="flex gap-2 justify-center px-4 overflow-x-auto scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => { setActiveCategory(cat.id); setLightbox(null) }}
-              className={`px-6 py-2.5 text-xs tracking-widest uppercase font-medium rounded-sm transition-all duration-300 cursor-pointer ${
+              className={`px-5 py-2 text-[11px] tracking-[0.15em] uppercase font-medium rounded-full transition-all duration-300 cursor-pointer whitespace-nowrap ${
                 activeCategory === cat.id
-                  ? 'bg-dark text-white'
-                  : 'bg-transparent text-gray-500 hover:text-anthracite border border-gray-700'
+                  ? 'bg-bronze text-white'
+                  : 'bg-transparent text-gray-500 hover:text-white border border-gray-700'
               }`}
             >
               {cat.label}
@@ -112,7 +112,7 @@ export default function Realisations() {
                         className="w-full h-full object-cover"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500 flex items-center justify-center">
                         <span className="text-white text-[10px] tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           Cliquez
                         </span>
@@ -145,7 +145,7 @@ export default function Realisations() {
       {/* Lightbox */}
       {lightbox !== null && (
         <div
-          className="fixed inset-0 z-50 bg-charcoal/90 lightbox-overlay flex items-center justify-center p-4 md:p-8"
+          className="fixed inset-0 z-50 bg-black/90 lightbox-overlay flex items-center justify-center p-4 md:p-8"
           onClick={() => setLightbox(null)}
         >
           <button onClick={() => setLightbox(null)} className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-10 cursor-pointer">

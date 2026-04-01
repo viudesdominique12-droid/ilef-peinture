@@ -45,7 +45,7 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <Link key={link.path} to={link.path}
               className={`px-5 py-2 text-[12px] tracking-wide uppercase font-medium rounded-full transition-all duration-300 whitespace-nowrap ${
-                location.pathname === link.path ? 'bg-bronze text-black' : 'text-gray-400 hover:text-white'
+                location.pathname === link.path ? 'bg-bronze text-white' : 'text-gray-400 hover:text-white'
               }`}>
               {link.label}
             </Link>

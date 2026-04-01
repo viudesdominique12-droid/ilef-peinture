@@ -81,11 +81,11 @@ export default function Coverflow({ images, onSelect }) {
           const absOff = Math.abs(offset)
           const isActive = offset === 0
 
-          const tx = offset * 220
-          const ry = offset > 0 ? -45 : offset < 0 ? 45 : 0
-          const tz = isActive ? 80 : -50 * absOff
-          const sc = isActive ? 1 : Math.max(0.65, 1 - absOff * 0.15)
-          const op = absOff > 3 ? 0 : isActive ? 1 : Math.max(0.4, 1 - absOff * 0.25)
+          const tx = offset * 180
+          const ry = offset > 0 ? -40 : offset < 0 ? 40 : 0
+          const tz = isActive ? 60 : -40 * absOff
+          const sc = isActive ? 1 : Math.max(0.7, 1 - absOff * 0.12)
+          const op = absOff > 3 ? 0 : isActive ? 1 : Math.max(0.5, 1 - absOff * 0.2)
           const z = 100 - absOff
 
           return (
@@ -93,7 +93,7 @@ export default function Coverflow({ images, onSelect }) {
               key={i}
               className={`coverflow-item ${isActive ? 'coverflow-item-active' : ''}`}
               style={{
-                transform: `translateX(${tx}px) perspective(1000px) rotateY(${ry}deg) translateZ(${tz}px) scale(${sc})`,
+                transform: `translate(-50%, -50%) translateX(${tx}px) perspective(1000px) rotateY(${ry}deg) translateZ(${tz}px) scale(${sc})`,
                 opacity: op,
                 zIndex: z,
               }}
