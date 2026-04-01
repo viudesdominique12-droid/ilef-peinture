@@ -44,13 +44,13 @@ export default function Realisations() {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-anthracite">
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-dark">
         <div className="section-padding max-w-4xl">
-          <p className="hero-animate hero-animate-1 label-text !text-terracotta-light mb-4">Portfolio</p>
-          <h1 className="hero-animate hero-animate-2 heading-xl text-warm-white mb-6">
-            Nos<br /><span className="italic text-terracotta-light">réalisations</span>
+          <p className="hero-animate hero-animate-1 label-text !text-bronze mb-4">Portfolio</p>
+          <h1 className="hero-animate hero-animate-2 heading-xl text-white mb-6">
+            Nos<br /><span className="italic text-bronze">réalisations</span>
           </h1>
-          <p className="hero-animate hero-animate-3 text-lg text-warm-white/70 max-w-2xl leading-relaxed">
+          <p className="hero-animate hero-animate-3 text-lg text-white/70 max-w-2xl leading-relaxed">
             Des professionnels au service de votre intérieur. Découvrez nos travaux de peinture,
             revêtement mural et revêtement de sol.
           </p>
@@ -58,7 +58,7 @@ export default function Realisations() {
       </section>
 
       {/* Category selector */}
-      <section className="section-padding py-8 bg-ivory sticky top-20 lg:top-24 z-30 border-b border-beige/30">
+      <section className="section-padding py-8 bg-black sticky top-20 lg:top-24 z-30 border-b border-gray-900">
         <div className="max-w-7xl mx-auto flex flex-wrap gap-3 justify-center">
           {categories.map((cat) => (
             <button
@@ -66,8 +66,8 @@ export default function Realisations() {
               onClick={() => { setActiveCategory(cat.id); setLightbox(null) }}
               className={`px-6 py-2.5 text-xs tracking-widest uppercase font-medium rounded-sm transition-all duration-300 cursor-pointer ${
                 activeCategory === cat.id
-                  ? 'bg-anthracite text-warm-white'
-                  : 'bg-transparent text-taupe hover:text-anthracite border border-beige'
+                  ? 'bg-dark text-white'
+                  : 'bg-transparent text-gray-500 hover:text-anthracite border border-gray-700'
               }`}
             >
               {cat.label}
@@ -77,11 +77,11 @@ export default function Realisations() {
       </section>
 
       {/* Coverflow — top showcase */}
-      <section className="section-padding py-10 md:py-16 bg-warm-white">
+      <section className="section-padding py-10 md:py-16 bg-dark-light">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="text-center mb-6">
             <p className="label-text mb-2">{currentCat?.label}</p>
-            <p className="text-sm text-taupe">{currentCat?.desc}</p>
+            <p className="text-sm text-gray-500">{currentCat?.desc}</p>
           </AnimatedSection>
 
           <Coverflow
@@ -92,11 +92,11 @@ export default function Realisations() {
       </section>
 
       {/* Grid with Tilt 3D + Flip on click */}
-      <section className="section-padding section-spacing bg-ivory">
+      <section className="section-padding section-spacing bg-black">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="mb-8">
             <h2 className="heading-md">Toutes les réalisations</h2>
-            <p className="text-sm text-taupe mt-1">Cliquez sur une image pour la retourner — survolez pour l'explorer en 3D</p>
+            <p className="text-sm text-gray-500 mt-1">Cliquez sur une image pour la retourner — survolez pour l'explorer en 3D</p>
           </AnimatedSection>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
@@ -113,23 +113,23 @@ export default function Realisations() {
                         loading="lazy"
                       />
                       <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500 flex items-center justify-center">
-                        <span className="text-warm-white text-[10px] tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="text-white text-[10px] tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           Cliquez
                         </span>
                       </div>
                     </div>
                   }
                   backContent={
-                    <div className="w-full h-full bg-anthracite flex flex-col items-center justify-center p-4 text-center">
-                      <p className="text-terracotta-light text-[10px] tracking-widest uppercase mb-2">
+                    <div className="w-full h-full bg-dark flex flex-col items-center justify-center p-4 text-center">
+                      <p className="text-bronze text-[10px] tracking-widest uppercase mb-2">
                         {currentCat?.label}
                       </p>
-                      <p className="text-warm-white font-serif text-lg mb-3">
+                      <p className="text-white font-serif text-lg mb-3">
                         Réalisation n°{i + 1}
                       </p>
                       <button
                         onClick={(e) => { e.stopPropagation(); setLightbox(i) }}
-                        className="px-4 py-2 bg-warm-white/10 border border-warm-white/20 text-warm-white text-[10px] tracking-widest uppercase rounded-sm hover:bg-terracotta hover:border-terracotta transition-all cursor-pointer"
+                        className="px-4 py-2 bg-dark-light/10 border border-warm-white/20 text-white text-[10px] tracking-widest uppercase rounded-sm hover:bg-bronze hover:border-bronze transition-all cursor-pointer"
                       >
                         Agrandir
                       </button>
@@ -148,13 +148,13 @@ export default function Realisations() {
           className="fixed inset-0 z-50 bg-charcoal/90 lightbox-overlay flex items-center justify-center p-4 md:p-8"
           onClick={() => setLightbox(null)}
         >
-          <button onClick={() => setLightbox(null)} className="absolute top-6 right-6 text-warm-white/70 hover:text-warm-white transition-colors z-10 cursor-pointer">
+          <button onClick={() => setLightbox(null)} className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-10 cursor-pointer">
             <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
-          <button onClick={(e) => { e.stopPropagation(); navigateLightbox(-1) }} className="absolute left-4 md:left-8 text-warm-white/70 hover:text-warm-white transition-colors cursor-pointer">
+          <button onClick={(e) => { e.stopPropagation(); navigateLightbox(-1) }} className="absolute left-4 md:left-8 text-white/70 hover:text-white transition-colors cursor-pointer">
             <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
           </button>
-          <button onClick={(e) => { e.stopPropagation(); navigateLightbox(1) }} className="absolute right-4 md:right-8 text-warm-white/70 hover:text-warm-white transition-colors cursor-pointer">
+          <button onClick={(e) => { e.stopPropagation(); navigateLightbox(1) }} className="absolute right-4 md:right-8 text-white/70 hover:text-white transition-colors cursor-pointer">
             <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
           </button>
           <img
@@ -163,14 +163,14 @@ export default function Realisations() {
             className="max-h-[85vh] max-w-[90vw] object-contain rounded-sm"
             onClick={(e) => e.stopPropagation()}
           />
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-warm-white/50 text-xs tracking-widest">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/50 text-xs tracking-widest">
             {lightbox + 1} / {currentImages.length}
           </div>
         </div>
       )}
 
       {/* CTA */}
-      <section className="section-padding py-20 bg-warm-white">
+      <section className="section-padding py-20 bg-dark-light">
         <AnimatedSection className="max-w-3xl mx-auto text-center">
           <h2 className="heading-md mb-4">Envie d'un résultat similaire ?</h2>
           <p className="body-lg mb-8">Contactez notre équipe pour des conseils ou plus d'informations sur nos prestations.</p>
